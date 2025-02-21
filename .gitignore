@@ -1,0 +1,51 @@
+# Mac metadata files
+.DS_Store
+
+# Ignore automatically created project directories which we don't want to be uploaded
+# media directory for photos, etc uploaded to the website
+media
+# static contains the files added as part of the project (e.g. JS and CSS) and gets populated by running collectstatic
+static
+# Coverage report directory
+htmlcov
+
+# Server files
+apache2
+
+# Eclipse files
+.project
+.pydevproject
+
+#IntelliJ files
+.idea
+
+# Compiled python files
+*.py[cod]
+
+# C extensions
+*.so
+
+# Packages
+*.egg
+*.egg-info
+eggs
+parts
+var
+sdist
+develop-eggs
+.installed.cfg
+__pycache__
+carbonhomewatcher_venv/
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+nosetests.xml
+
+.pytest_cache
+
+# Other
+.cache
