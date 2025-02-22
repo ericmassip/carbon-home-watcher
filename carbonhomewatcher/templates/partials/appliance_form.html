@@ -1,0 +1,17 @@
+<form hx-post="{% url "appliance-create" %}"> {% csrf_token %}
+  {{ form.non_field_errors }}
+  
+  <div class="mb-2">
+    {{ form.name.errors }}
+    <label for="id_name" class="form-label">Name:</label>
+    <input type="text" class="form-control" name="name" maxlength="100" required id="id_name">
+  </div>
+  
+  <div class="mb-2">
+    {{ form.power.errors }}
+    <label for="id_power" class="form-label">Power (kW):</label>
+    <input type="number" class="form-control" name="power" step="any" required="" id="id_power">
+  </div>
+  
+  <button type="submit" class="btn btn-outline-primary float-end">Create</button>
+</form>
