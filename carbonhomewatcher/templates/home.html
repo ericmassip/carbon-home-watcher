@@ -29,14 +29,24 @@
     <div class="row">
       <div class="col-9"
            hx-get="{% url "appliance-table" %}"
-           hx-trigger="load">
+           hx-trigger="load, newAppliance from:body">
+        {% partialdef appliance-table %}
+          {% render_table appliance_table %}
+        {% endpartialdef %}
       </div>
+
       <div class="col-3" id="appliance-form">
         {% partialdef appliance-form %}
           <form hx-post="{% url "appliance-create" %}">
             {{ form|crispy }}
             <button type="submit" class="btn btn-outline-primary float-end">Create</button>
           </form>
+        {% endpartialdef %}
+
+        {% partialdef appliance-created-alert %}
+          <div class="alert alert-success" role="alert">
+            {{ appliance.name }} created successfully!
+          </div>
         {% endpartialdef %}
       </div>
     </div>
