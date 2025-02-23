@@ -56,7 +56,7 @@ ROOT_URLCONF = 'webappconf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, "carbonhomewatcher", "templates"), os.path.join(BASE_DIR, "carbonhomewatcher_part2", "templates"), os.path.join(BASE_DIR, "carbonhomewatcher_part3", "templates"),],
+        'DIRS': [os.path.join(BASE_DIR, "carbonhomewatcher", "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,10 +79,9 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "carbonhomewatcher",
-        "USER": "",
-        "PASSWORD": "",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "USER": "postgres",
+        "PASSWORD": "123456",
+        "HOST": os.environ.get('POSTGRES_HOST', 'localhost'),
     }
 }
 

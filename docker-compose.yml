@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_HOST=db
     volumes:
-      - .:/carbon-home-watcher-django-htmx
+      - .:/carbon-home-watcher
     depends_on:
       - db
 
