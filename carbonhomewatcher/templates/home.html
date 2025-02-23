@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
+{% load partials %}
 
 {% block body %}
   <div class="container mt-5">
@@ -26,10 +27,28 @@
     </div>
 
     <div class="row">
-      <div class="col-9" id="appliance-table">
-        {% render_table appliance_table %}
+      <div class="col-9" id="appliance-table"
+           hx-get="{% url "appliance-table" %}"
+           hx-trigger="load, newAppliance from:body">
+        {% partialdef appliance-table %}
+          {% render_table appliance_table %}
+        {% endpartialdef %}
       </div>
-      <div class="col-3" id="appliance-form"></div>
+
+      <div class="col-3" id="appliance-form">
+        {% partialdef appliance-form %}
+          <form hx-post="{% url "appliance-create" %}">
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-primary float-end">Create</button>
+          </form>
+        {% endpartialdef %}
+
+        {% partialdef appliance-created-alert %}
+          <div class="alert alert-success" role="alert">
+            {{ appliance.name }} created successfully!
+          </div>
+        {% endpartialdef %}
+      </div>
     </div>
 
   </div>
