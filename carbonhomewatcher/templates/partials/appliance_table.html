@@ -1,9 +1,3 @@
 {% load render_table from django_tables2 %}
 
-<div class="alert alert-success" role="alert">
-  {{ appliance.name }} created successfully!
-</div>
-
-<div id="appliance-table" hx-swap-oob="innerHTML">
-  {% render_table appliance_table %}
-</div>
+{% render_table appliance_table %}
