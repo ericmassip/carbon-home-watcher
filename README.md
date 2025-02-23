@@ -71,7 +71,7 @@ To deploy the app, run the following command:
 The workshop is divided into 5 parts, each one adding a new feature to the app or improving an existing one. Each part
 has a baseline branch that you can use to start the exercises, as well as a proposed solution.
 
-### Part 1
+### Part 1 - Out of band swapping
 
 Baseline branch name = `part1`
 
@@ -87,3 +87,13 @@ the table.
 Your task is to update the app so that when the form is submitted, the new appliance is added to the table without
 reloading the page. The form should disappear and some text should be shown to confirm that the appliance has been
 created successfully. To replace the table, use an [out of band swap](https://htmx.org/docs/#oob_swaps).
+
+### Part 2 - Triggering events
+
+Baseline branch name = `part2`
+
+Solution branch name = `part2-solution`
+
+The goal of this task is to replace the current out of band swap with a slightly more sophisticated approach,
+a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific event
+occurs i.e. event driven programming.   
