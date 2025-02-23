@@ -55,3 +55,20 @@ been created successfully.
 > [!TIP]
 > You'll need to replace two elements in the DOM but hx-target only lets you target one.
 > See [out of band swap](https://htmx.org/docs/#oob_swaps).
+
+### Part 2 - Implementing partials and triggering events
+
+Baseline branch name = `part2`
+
+Solution branch name = `part2-solution`
+
+#### Exercise
+
+This task has two goals:
+
+1. Improve our project's implementation of Locality of Behaviour by using template partials. Install
+   the [django-template-partials](https://github.com/carltongibson/django-template-partials) package and add the
+   partials within our `partials/` folder directly into our `home.html` template.
+2. The goal of this task is to replace the current out of band swap with a slightly more sophisticated approach,
+   a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific
+   event occurs i.e. event driven programming.
