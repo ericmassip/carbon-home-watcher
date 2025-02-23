@@ -35,7 +35,7 @@ To get started with this project, you'll need to have
 The workshop is divided into 4 parts, each one adding new features to the app or improving an existing one. Each part
 has a baseline branch that you can use to start the exercises, as well as a proposed solution.
 
-### Part 1
+### Part 1 - Out of band swapping
 
 Baseline branch name = `part1`
 
