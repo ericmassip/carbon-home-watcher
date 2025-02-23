@@ -71,7 +71,7 @@ To deploy the app, run the following command:
 The workshop is divided into 5 parts, each one adding a new feature to the app or improving an existing one. Each part
 has a baseline branch that you can use to start the exercises, as well as a proposed solution.
 
-### Part 1
+### Part 1 - Out of band swapping
 
 Baseline branch name = `part1`
 
