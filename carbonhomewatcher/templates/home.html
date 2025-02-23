@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
+{% load partials %}
 
 {% block body %}
   <div class="container mt-5">
@@ -19,19 +20,26 @@
       <div class="col-2">
         <button
             type="button"
-            class="btn btn-outline-success float-end">Add new</button>
+            class="btn btn-outline-success float-end"
+            hx-get="{% url "appliance-create" %}"
+            hx-target="#appliance-form">Add new</button>
       </div>
     </div>
 
     <div class="row">
       <div class="col-9" id="appliance-table">
-        {% render_table appliance_table %}
+        {% partialdef appliance-table inline %}
+          {% render_table appliance_table %}
+        {% endpartialdef %}
       </div>
-      <div class="col-3">
-        <form method="post" action="{% url "appliance-create" %}">{% csrf_token %}
-          {{ form|crispy }}
-          <button type="submit" class="btn btn-outline-primary float-end">Create</button>
-        </form>
+
+      <div class="col-3" id="appliance-form">
+        {% partialdef appliance-form %}
+          <form hx-post="{% url "appliance-create" %}" hx-target="#appliance-table">
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-primary float-end">Create</button>
+          </form>
+        {% endpartialdef %}
       </div>
     </div>
 
