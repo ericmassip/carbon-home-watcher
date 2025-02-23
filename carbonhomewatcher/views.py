@@ -30,5 +30,9 @@ class ApplianceCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        context = {"appliance_table": get_appliance_table(), "appliance": self.object}
-        return render(self.request, "partials/appliance_table.html", context)
+        response = render(
+            self.request,
+            "partials/appliance_created_alert.html",
+            {"appliance": self.object},
+        )
+        return trigger_client_event(response, "newAppliance")
