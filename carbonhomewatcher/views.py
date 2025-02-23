@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import CreateView, TemplateView
+from django_htmx.http import trigger_client_event
 from django_tables2 import tables
 
 from carbonhomewatcher.forms import ApplianceForm
@@ -14,16 +15,16 @@ class ApplianceTable(tables.Table):
         orderable = False
 
 
-def get_appliance_table():
-    return ApplianceTable(Appliance.objects.order_by("name").all())
-
-
 class HomeView(TemplateView):
     template_name = "home.html"
 
+
+class ApplianceTableView(TemplateView):
+    template_name = "partials/appliance_table.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["appliance_table"] = get_appliance_table()
+        context["table"] = ApplianceTable(Appliance.objects.order_by("name").all())
         return context
 
 

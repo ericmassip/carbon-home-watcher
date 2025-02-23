@@ -22,7 +22,10 @@
                 hx-target="#create-appliance-form">Add new</button>
           </div>
         </div>
-        <div class="row" id="appliance-table">{% render_table appliance_table %}</div>
+        <div class="row" id="appliance-table" 
+             hx-get="{% url "appliance-table" %}" 
+             hx-trigger="load, newAppliance from:body">
+        </div>
       </div>
       <div class="col-3">
         <div id="create-appliance-form"></div>
