@@ -113,3 +113,35 @@ This task has two goals:
 > [!TIP]
 > Create a new view other than the main `HomeView` that returns the appliance table. Make a request to this new view
 > when the page is first accessed. See [lazy loading](https://htmx.org/examples/lazy-load/).
+
+### Part 3 - Add toggling
+
+Baseline branch name = `part3`
+
+Solution branch name = `part3-solution`
+
+The appliances table has a new column called `Toggle`. This column has a button that allows users to turn the appliance
+on and off. However, the button doesn't do anything yet.
+
+Also, there is a new element on the page called `My carbon emissions`, which shows the total carbon emissions in gCO2eq
+of all the active appliances on the table. This element is updated when the page is loaded, but it doesn't update when
+an appliance is toggled yet.
+
+> [!NOTE]  
+> Carbon intensity is a measure of how clean the electricity that we consume is. It refers to how many grams of carbon
+> dioxide (CO2) are released to produce a kilowatt hour (kWh) of energy. For now, we are assuming that the carbon
+> intensity is 100 gCO2eq/kWh.
+
+#### Exercise
+
+Your task is to:
+
+1. Update the toggle button in the `Toggle` column so that when it changes, the appliance is updated on the db. Use
+   the [hx-put](https://htmx.org/attributes/hx-put/) attribute.
+
+> [!WARNING]  
+> Django does not expect you to update an object using a PUT request, but for the sake of this exercise, we will do it.
+
+2. Use a trigger event to update the `My carbon emissions` element when an appliance is toggled. The
+   `CarbonEmissionsView` is already in charge of returning the current carbon emissions in gCO2eq based on the active
+   appliances and the current carbon intensity.
