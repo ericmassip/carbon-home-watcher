@@ -94,6 +94,45 @@ Baseline branch name = `part2`
 
 Solution branch name = `part2-solution`
 
+#### Exercise
+
 The goal of this task is to replace the current out of band swap with a slightly more sophisticated approach,
 a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific event
-occurs i.e. event driven programming.   
+occurs i.e. event driven programming.
+
+### Part 3 - Add toggling
+
+Baseline branch name = `part3`
+
+Solution branch name = `part3-solution`
+
+The appliances table has a new column called `Toggle`. This column has a button that allows users to turn the appliance
+on or off. However, the button doesn't do anything yet.
+
+Also, there is a new element on the page called `My carbon emissions`, which shows the total carbon emissions in gCO2eq
+of all the active appliances in the table. This element is updated when the page is loaded, but it doesn't update when
+an appliance is toggled yet.
+
+> [!NOTE]  
+> Carbon intensity is a measure of how clean the electricity that we consume is. It refers to how many grams of carbon
+> dioxide (CO2) are released to produce a kilowatt hour (kWh). For now, we are assuming that the carbon intensity is 100
+> gCO2eq/kWh.
+
+#### Exercise
+
+Your task is to:
+
+1. Update the toggle button in the `Toggle` column so that when it changes, the appliance is updated on the db. Use
+   the [hx-put](https://htmx.org/attributes/hx-put/) attribute.
+
+> [!WARNING]  
+> Django does not expect you to update an object using a PUT request, but for the sake of this exercise, we will do it.
+> Just remember to append the CSRF token to the request header with `hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'`.
+
+2. Use a trigger event to update the `My carbon emissions` element when an appliance is toggled. The
+   function `get_current_carbon_emissions()` returns the current carbon emissions in gCO2eq (as a number) based on the
+   active appliances and the current carbon intensity, you don't need to worry about that.
+
+TODO: ADD HINTS
+TODO: ADD HINTS
+TODO: ADD HINTS

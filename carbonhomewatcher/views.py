@@ -1,13 +1,17 @@
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, View
 from django_htmx.http import trigger_client_event
 from django_tables2 import tables
+from django_tables2.columns.templatecolumn import TemplateColumn
 
 from carbonhomewatcher.forms import ApplianceForm
-from carbonhomewatcher.models import Appliance
+from carbonhomewatcher.models import Appliance, get_current_carbon_emissions
 
 
 class ApplianceTable(tables.Table):
+    toggle = TemplateColumn(template_name="appliance_toggle.html", orderable=False)
+
     class Meta:
         model = Appliance
         template_name = "django_tables2/bootstrap.html"
@@ -41,3 +45,13 @@ class ApplianceCreateView(CreateView):
             {"appliance": self.object},
         )
         return trigger_client_event(response, "newAppliance")
+
+
+class CarbonEmissionsView(View):
+    def get(self, request):
+        return HttpResponse(str(get_current_carbon_emissions()) + " gCO2eq")
+
+
+# TODO: Create a PUT view to toggle the is_active field of an appliance
+def appliance_toggle_view(request, pk):
+    print()

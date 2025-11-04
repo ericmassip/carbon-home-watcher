@@ -6,6 +6,12 @@
     <div class="row mb-3">
       <h1>Carbon Home Watcher 🏡</h1>
       <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
+      <h5>My carbon emissions: 
+        <span id="carbon-emissions" 
+              hx-get="{% url "carbon-emissions" %}" 
+              hx-trigger="load">
+        </span>
+      </h5>
     </div>
 
     <div class="row">
