@@ -43,7 +43,7 @@ To deploy the app, run the following command:
 1. Create a virtual environment with the project's dependencies:
 
     ```bash
-    python -m venv carbonhomewatcher_venv
+    python -m venv venv/
     source venv/bin/activate
     pip install -r requirements.txt
     ```
