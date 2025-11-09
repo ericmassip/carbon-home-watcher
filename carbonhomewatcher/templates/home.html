@@ -1,32 +1,36 @@
 {% extends "base.html" %}
-{% load render_table from django_tables2 %}
+{% load django_tables2 %}
+{% load crispy_forms_tags %}
 
 {% block body %}
   <div class="container mt-5">
+
     <div class="row mb-3">
-      <h1>Carbon Home Watcher 🏡</h1>
-      <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
+      <div class="col">
+        <h1>Carbon Home Watcher 🏡</h1>
+        <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-10">
+        <h4>List of appliances</h4>
+      </div>
+      <div class="col-2">
+        <button
+            type="button"
+            class="btn btn-outline-success float-end"
+            hx-get="{% url "appliance-create" %}"
+            hx-target="#appliance-form">Add new</button>
+      </div>
     </div>
 
     <div class="row">
-      <div class="col-9">
-        <div class="row mb-2">
-          <div class="col-10">
-            <h4>List of appliances</h4>
-          </div>
-          <div class="col-2">
-            <button 
-                type="button"
-                class="btn btn-outline-success float-end" 
-                hx-get="{% url "appliance-create" %}"
-                hx-target="#create-appliance-form">Add new</button>
-          </div>
-        </div>
-        <div class="row" id="appliance-table">{% render_table appliance_table %}</div>
+      <div class="col-9" id="appliance-table">
+        {% render_table appliance_table %}
       </div>
-      <div class="col-3">
-        <div id="create-appliance-form"></div>
-      </div>
+      <div class="col-3" id="appliance-form"></div>
     </div>
+
   </div>
 {% endblock %}
