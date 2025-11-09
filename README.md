@@ -85,5 +85,9 @@ the table.
 #### Exercise
 
 Your task is to update the app so that when the form is submitted, the new appliance is added to the table without
-reloading the page. The form should disappear and some text should be shown to confirm that the appliance has been
-created successfully. To replace the table, use an [out of band swap](https://htmx.org/docs/#oob_swaps).
+reloading the page. The form should disappear and some text should be shown to inform the user that the appliance has
+been created successfully.
+
+> [!TIP]
+> You'll need to replace two elements in the DOM but hx-target only lets you target one.
+> See [out of band swap](https://htmx.org/docs/#oob_swaps).
