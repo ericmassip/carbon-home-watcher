@@ -6,5 +6,8 @@ class Appliance(models.Model):
     power = models.FloatField()
     is_active = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ("name", )
+
     def __str__(self):
         return self.name
