@@ -70,6 +70,10 @@ This task has two goals:
    the [django-template-partials](https://github.com/carltongibson/django-template-partials) package. The package has
    already been installed for you so you just need to add the partials within our `partials/` folder directly into our
    `home.html` template.
-2. The goal of this task is to replace the current out of band swap with a slightly more sophisticated approach,
+2. Replace the current out of band swap with a slightly more sophisticated approach,
    a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific
    event occurs i.e. event driven programming.
+
+> [!TIP]
+> Create a new view other than the main `HomeView` that returns the appliance table. Make a request to this new view
+> when the page is first accessed. See [lazy loading](https://htmx.org/examples/lazy-load/).
