@@ -4,8 +4,6 @@
   {{ appliance.name }} created successfully!
 </div>
 
-<div class="row" 
-     id="appliance-table"
-     hx-swap-oob="true">
-  {% render_table table %}
+<div id="appliance-table" hx-swap-oob="innerHTML">
+  {% render_table appliance_table %}
 </div>
