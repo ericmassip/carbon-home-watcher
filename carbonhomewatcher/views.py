@@ -34,5 +34,5 @@ class ApplianceCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        context = {"table": get_appliance_table(), "appliance": self.object}
+        context = {"appliance_table": get_appliance_table(), "appliance": self.object}
         return render(self.request, "partials/appliance_table.html", context)
