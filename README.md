@@ -137,7 +137,7 @@ an appliance is toggled yet.
 Your task is to:
 
 1. Update the toggle button in the `Toggle` column so that when it changes, the appliance is updated on the db. Use
-   the [hx-put](https://htmx.org/attributes/hx-put/) attribute.
+   the [hx-put](https://htmx.org/attributes/hx-put/) attribute to make a request to the `appliance_toggle_view`.
 
 > [!WARNING]  
 > Django does not expect you to update an object using a PUT request, but for the sake of this exercise, we will do it.
@@ -145,3 +145,4 @@ Your task is to:
 2. Use a trigger event to update the `My carbon emissions` element when an appliance is toggled. The
    `CarbonEmissionsView` is already in charge of returning the current carbon emissions in gCO2eq based on the active
    appliances and the current carbon intensity.
+
