@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os
 from pathlib import Path
+from sys import stdout
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -139,6 +140,27 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {"format": "%(asctime)s pid:%(process)d %(levelname)s in %(module)s %(message)s"},
+        "simple": {"format": "%(levelname)s %(message)s"},
+    },
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {
+        "console": {"level": "INFO", "class": "logging.StreamHandler", "stream": stdout, "formatter": "verbose"},
+    },
+    "loggers": {
+        "": {  # This should capture all logs as the root logger
+            "handlers": ["console"],
+            "filters": [],
+            "propagate": True,
+            "level": "INFO",
+        },
+    },
+}
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
