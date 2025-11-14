@@ -1,18 +1,10 @@
 from django.urls import reverse
 from django.views.generic import CreateView, TemplateView
 from django_htmx.http import HttpResponseClientRedirect
-from django_tables2 import tables
 
 from carbonhomewatcher.forms import ApplianceForm
 from carbonhomewatcher.models import Appliance
-
-
-class ApplianceTable(tables.Table):
-    class Meta:
-        model = Appliance
-        template_name = "django_tables2/bootstrap.html"
-        exclude = ["id", "is_active"]
-        orderable = False
+from carbonhomewatcher.tables import ApplianceTable
 
 
 class HomeView(TemplateView):
