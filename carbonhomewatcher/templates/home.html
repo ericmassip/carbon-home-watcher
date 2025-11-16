@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
 {% load partials %}
@@ -11,7 +12,11 @@
         <h1>Carbon Home Watcher 🏡</h1>
         <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
         <h5>My carbon emissions:
-          {#<span>SHOW CARBON EMISSIONS HERE</span>#}
+          <span hx-get="{% url "carbon-emissions" %}"
+                hx-indicator="#spinner"
+                hx-trigger="newAppliance from:body, carbonIntensityUpdate from:body">
+          </span>
+          <img id="spinner" class="htmx-indicator" src="{% static 'img/oval.svg' %}" alt="Loading..."/>
         </h5>
       </div>
     </div>
@@ -55,7 +60,10 @@
     </div>
 
     <div class="row">
-      <div class="col-9">
+      <div class="col-9"
+          hx-get="{% url 'carbon-intensity' %}"
+          hx-trigger="load, every 5s"
+          hx-swap="beforeend">
         <h5>Carbon intensity updates</h5>
         {% partialdef carbon-intensity-alert %}
           <div class="alert alert-{{ alert_level }}" role="alert">

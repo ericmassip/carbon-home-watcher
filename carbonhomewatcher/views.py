@@ -59,3 +59,7 @@ class CarbonIntensityView(TemplateView):
         context["zone"] = carbon_intensity_dict.get("zone")
         context["alert_level"] = carbon_intensity_dict.get("alert_level", "danger")
         return context
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, **kwargs)
+        return trigger_client_event(response, "carbonIntensityUpdate")
