@@ -77,3 +77,36 @@ This task has two goals:
 > [!TIP]
 > Create a new view other than the main `HomeView` that returns the appliance table. Make a request to this new view
 > when the page is first accessed. See [lazy loading](https://htmx.org/examples/lazy-load/).
+
+### Part 3 - Add polling calls to update the carbon emissions
+
+Baseline branch name = `part3`
+
+Solution branch name = `part3-solution`
+
+The app has two new views that return the total carbon emissions (gCO2eq/h) given the appliances in the db and the
+current carbon intensity (gCO2eq/kWh), but these views are not being used yet. Your task is to connect the app with
+them to display the current carbon emissions in real time as well as to monitor the carbon intensity evolution.
+
+The carbon intensity can change throughout the day, so it would be good to update it every 5 minutes. The `services.py`
+file has a variable called `carbon_emissions_service` which loads a service to get the current carbon intensity from
+the [ElectricityMaps](https://app.electricitymaps.com/) API. To set it up, you'll need to get an API key on their
+[developer hub](https://app.electricitymaps.com/developer-hub). If you don't want to do that, don't worry, a random
+value will be used instead. However, keep in mind that the carbon intensity will remain the same until you restart the
+app.
+
+Once you have the API key, set it as an environment variable called `ELECTRICITY_MAPS_API_KEY`. Copy the `.env.example`
+file into a new file called `.env` and add the variable there.
+
+#### Exercise
+
+1. Use [polling](https://htmx.org/docs/#polling) to load an alert with the carbon intensity details every 5
+   minutes, see the `carbon-intensity-alert` partial in `home.html`. For development purposes, you can set the polling
+   interval to a lower value like 5-10 seconds.
+
+2. The total carbon emissions should be displayed in the header of the page, see the `<span>` tag at the top
+   of `home.html`. It should be updated both when the carbon intensity changes and when a new appliance is added.
+
+3. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
+   feedback to the user, show an [indicator](https://htmx.org/docs/#indicators) while the request is being processed. An
+   svg spinner has been provided for you in `static/img/oval.svg`.
