@@ -82,11 +82,8 @@ WSGI_APPLICATION = 'webappconf.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "carbonhomewatcher",
-        "USER": "postgres",
-        "PASSWORD": "123456",
-        "HOST": os.environ.get('POSTGRES_HOST', 'localhost'),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 

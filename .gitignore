@@ -49,3 +49,9 @@ nosetests.xml
 
 # Other
 .cache
+
+# Database
+db.sqlite3
+
+# Environment variables file
+.env
