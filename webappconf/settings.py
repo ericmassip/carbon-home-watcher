@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+from dotenv import load_dotenv
 import os
 from pathlib import Path
+from sys import stdout
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,13 +36,17 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'carbonhomewatcher.apps.CarbonHomeWatcherConfig',
-    'django_tables2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_htmx',
+    'django_tables2',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'template_partials',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_htmx.middleware.HtmxMiddleware',
 ]
 
 ROOT_URLCONF = 'webappconf.urls'
@@ -77,11 +86,8 @@ WSGI_APPLICATION = 'webappconf.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "carbonhomewatcher",
-        "USER": "postgres",
-        "PASSWORD": "123456",
-        "HOST": os.environ.get('POSTGRES_HOST', 'localhost'),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -135,3 +141,30 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {"format": "%(asctime)s pid:%(process)d %(levelname)s in %(module)s %(message)s"},
+        "simple": {"format": "%(levelname)s %(message)s"},
+    },
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {
+        "console": {"level": "INFO", "class": "logging.StreamHandler", "stream": stdout, "formatter": "verbose"},
+    },
+    "loggers": {
+        "": {  # This should capture all logs as the root logger
+            "handlers": ["console"],
+            "filters": [],
+            "propagate": True,
+            "level": "INFO",
+        },
+    },
+}
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Get your Electricity Maps API key from https://app.electricitymaps.com/developer-hub
+ELECTRICITY_MAPS_API_KEY = os.environ.get('ELECTRICITY_MAPS_API_KEY')

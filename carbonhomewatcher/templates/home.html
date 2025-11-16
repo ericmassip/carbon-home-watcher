@@ -1,41 +1,81 @@
 {% extends "base.html" %}
-{% load render_table from django_tables2 %}
+{% load static %}
+{% load django_tables2 %}
+{% load crispy_forms_tags %}
+{% load partials %}
 
 {% block body %}
   <div class="container mt-5">
-    <div class="row mb-3">
-      <h1>Carbon Home Watcher 🏡</h1>
-      <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
-      <h5>My carbon emissions: 
-        <span id="carbon-emissions" 
-              hx-get="{% url "carbon-emissions" %}" 
-              hx-trigger="load">
-        </span>
-      </h5>
+
+    <div class="row mb-4">
+      <div class="col">
+        <h1>Carbon Home Watcher 🏡</h1>
+        <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
+        <h5>My carbon emissions:
+          <span hx-get="{% url "carbon-emissions" %}"
+                hx-indicator="#spinner"
+                hx-trigger="newAppliance from:body, carbonIntensityUpdate from:body">
+          </span>
+          <img id="spinner" class="htmx-indicator" src="{% static 'img/oval.svg' %}" alt="Loading..."/>
+        </h5>
+      </div>
+    </div>
+
+    <div class="row mb-2">
+      <div class="col-10">
+        <h4>List of appliances</h4>
+      </div>
+      <div class="col-2">
+        <button
+            type="button"
+            class="btn btn-outline-success float-end"
+            hx-get="{% url "appliance-create" %}"
+            hx-target="#appliance-form">Add new</button>
+      </div>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-9" id="appliance-table"
+           hx-get="{% url "appliance-table" %}"
+           hx-trigger="load, newAppliance from:body">
+        {% partialdef appliance-table %}
+          {% render_table appliance_table %}
+        {% endpartialdef %}
+      </div>
+
+      <div class="col-3" id="appliance-form">
+        {% partialdef appliance-form %}
+          <form hx-post="{% url "appliance-create" %}">
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-primary float-end">Create</button>
+          </form>
+        {% endpartialdef %}
+
+        {% partialdef appliance-created-alert %}
+          <div class="alert alert-success" role="alert">
+            {{ appliance.name }} created successfully!
+          </div>
+        {% endpartialdef %}
+      </div>
     </div>
 
     <div class="row">
-      <div class="col-9">
-        <div class="row mb-2">
-          <div class="col-10">
-            <h4>List of appliances</h4>
+      <div class="col-9"
+          hx-get="{% url 'carbon-intensity' %}"
+          hx-trigger="load, every 5s"
+          hx-swap="beforeend">
+        <h5>Carbon intensity updates</h5>
+        {% partialdef carbon-intensity-alert %}
+          <div class="alert alert-{{ alert_level }}" role="alert">
+            {% if carbon_intensity %}
+              {{ carbon_intensity }} gCO2eq/kWh in zone {{ zone }} at {{ updated_at }}
+            {% else %}
+              Unable to fetch carbon intensity data
+            {% endif %}
           </div>
-          <div class="col-2">
-            <button 
-                type="button"
-                class="btn btn-outline-success float-end" 
-                hx-get="{% url "appliance-create" %}"
-                hx-target="#create-appliance-form">Add new</button>
-          </div>
-        </div>
-        <div class="row" id="appliance-table" 
-             hx-get="{% url "appliance-table" %}" 
-             hx-trigger="load, newAppliance from:body">
-        </div>
-      </div>
-      <div class="col-3">
-        <div id="create-appliance-form"></div>
+        {% endpartialdef %}
       </div>
     </div>
+
   </div>
 {% endblock %}

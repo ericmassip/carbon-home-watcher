@@ -2,7 +2,7 @@
 
 Carbon Home Watcher is an app that allows users to monitor their home's carbon footprint. It's a simple carbon footprint
 tracker, where users can add their home appliances and see how they affect their home's carbon footprint. The app is
-built using Django, PostgreSQL and HTMX.
+built using Django and HTMX.
 
 This app has been designed as a way to showcase the use of HTMX in a Django project. HTMX is a library that allows you
 to build modern web applications with minimal JavaScript. It allows you to update parts of the page without reloading
@@ -13,62 +13,26 @@ step-by-step exercises/instructions to familiarise yourself with some basic HTMX
 
 ## Getting started
 
-To get started with this project, you'll need to either:
-
-* Have Docker installed on your machine. If you don't have Docker installed, you can download it from
-  the [official Docker website](https://docs.docker.com/get-docker/).
-* Or, you can load the project locally. To do this, you'll need to have [python](https://www.python.org/)
-  and [PostgreSQL](https://www.postgresql.org/) installed locally.
-
-### Running the project with Docker
-
-To run the project, you need to have the [Docker](https://docs.docker.com/) daemon running.
-
-#### Set up database
-
-Before deploying the app, you'll need to set up the database by applying the
-initial [Django migrations](https://docs.djangoproject.com/en/5.1/topics/migrations/). To apply them, run the following
-command:
-
-    docker-compose run --rm web python manage.py migrate
-
-#### Deploy the app
-
-To deploy the app, run the following command:
-
-    docker-compose up
+To get started with this project, you'll need to have 
+[uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer) installed locally.
 
 ### Running the project locally
 
-1. Create a virtual environment with the project's dependencies:
+1. First, apply the database migrations with:
 
     ```bash
-    python -m venv carbonhomewatcher_venv
-    source venv/bin/activate
-    pip install -r requirements.txt
+    uv run manage.py migrate
     ```
-
-2. Create a PostgreSQL database:
+   
+2. Start the development server with:
 
     ```bash
-    createdb carbonhomewatcher
+    uv run manage.py runserver
     ```
 
-3. Apply the migrations:
+## Workshop step-by-step instructions
 
-    ```bash
-    python manage.py migrate
-    ```
-
-4. Run the Django server:
-
-    ```bash
-    python manage.py runserver
-    ```
-
-## Workshop step by step instructions
-
-The workshop is divided into 5 parts, each one adding a new feature to the app or improving an existing one. Each part
+The workshop is divided into 4 parts, each one adding new features to the app or improving an existing one. Each part
 has a baseline branch that you can use to start the exercises, as well as a proposed solution.
 
 ### Part 1 - Out of band swapping
@@ -85,10 +49,14 @@ the table.
 #### Exercise
 
 Your task is to update the app so that when the form is submitted, the new appliance is added to the table without
-reloading the page. The form should disappear and some text should be shown to confirm that the appliance has been
-created successfully. To replace the table, use an [out of band swap](https://htmx.org/docs/#oob_swaps).
+reloading the page. The form should disappear and some text should be shown to inform the user that the appliance has
+been created successfully.
 
-### Part 2 - Triggering events
+> [!TIP]
+> You'll need to replace two elements in the DOM but hx-target only lets you target one.
+> See [out of band swap](https://htmx.org/docs/#oob_swaps).
+
+### Part 2 - Implementing partials and triggering events
 
 Baseline branch name = `part2`
 
@@ -96,43 +64,49 @@ Solution branch name = `part2-solution`
 
 #### Exercise
 
-The goal of this task is to replace the current out of band swap with a slightly more sophisticated approach,
-a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific event
-occurs i.e. event driven programming.
+This task has two goals:
 
-### Part 3 - Add toggling
+1. Improve our project's implementation of Locality of Behaviour by using
+   the [django-template-partials](https://github.com/carltongibson/django-template-partials) package. The package has
+   already been installed for you so you just need to add the partials within our `partials/` folder directly into our
+   `home.html` template.
+2. Replace the current out of band swap with a slightly more sophisticated approach,
+   a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific
+   event occurs i.e. event driven programming.
+
+> [!TIP]
+> Create a new view other than the main `HomeView` that returns the appliance table. Make a request to this new view
+> when the page is first accessed. See [lazy loading](https://htmx.org/examples/lazy-load/).
+
+### Part 3 - Add polling calls to update the carbon emissions
 
 Baseline branch name = `part3`
 
 Solution branch name = `part3-solution`
 
-The appliances table has a new column called `Toggle`. This column has a button that allows users to turn the appliance
-on or off. However, the button doesn't do anything yet.
+The app has two new views that return the total carbon emissions (gCO2eq/h) given the appliances in the db and the
+current carbon intensity (gCO2eq/kWh), but these views are not being used yet. Your task is to connect the app with
+them to display the current carbon emissions in real time as well as to monitor the carbon intensity evolution.
 
-Also, there is a new element on the page called `My carbon emissions`, which shows the total carbon emissions in gCO2eq
-of all the active appliances in the table. This element is updated when the page is loaded, but it doesn't update when
-an appliance is toggled yet.
+The carbon intensity can change throughout the day, so it would be good to update it every 5 minutes. The `services.py`
+file has a variable called `carbon_emissions_service` which loads a service to get the current carbon intensity from
+the [ElectricityMaps](https://app.electricitymaps.com/) API. To set it up, you'll need to get an API key on their
+[developer hub](https://app.electricitymaps.com/developer-hub). If you don't want to do that, don't worry, a random
+value will be used instead. However, keep in mind that the carbon intensity will remain the same until you restart the
+app.
 
-> [!NOTE]  
-> Carbon intensity is a measure of how clean the electricity that we consume is. It refers to how many grams of carbon
-> dioxide (CO2) are released to produce a kilowatt hour (kWh). For now, we are assuming that the carbon intensity is 100
-> gCO2eq/kWh.
+Once you have the API key, set it as an environment variable called `ELECTRICITY_MAPS_API_KEY`. Copy the `.env.example`
+file into a new file called `.env` and add the variable there.
 
 #### Exercise
 
-Your task is to:
+1. Use [polling](https://htmx.org/docs/#polling) to load an alert with the carbon intensity details every 5
+   minutes, see the `carbon-intensity-alert` partial in `home.html`. For development purposes, you can set the polling
+   interval to a lower value like 5-10 seconds.
 
-1. Update the toggle button in the `Toggle` column so that when it changes, the appliance is updated on the db. Use
-   the [hx-put](https://htmx.org/attributes/hx-put/) attribute.
+2. The total carbon emissions should be displayed in the header of the page, see the `<span>` tag at the top
+   of `home.html`. It should be updated both when the carbon intensity changes and when a new appliance is added.
 
-> [!WARNING]  
-> Django does not expect you to update an object using a PUT request, but for the sake of this exercise, we will do it.
-> Just remember to append the CSRF token to the request header with `hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'`.
-
-2. Use a trigger event to update the `My carbon emissions` element when an appliance is toggled. The
-   function `get_current_carbon_emissions()` returns the current carbon emissions in gCO2eq (as a number) based on the
-   active appliances and the current carbon intensity, you don't need to worry about that.
-
-TODO: ADD HINTS
-TODO: ADD HINTS
-TODO: ADD HINTS
+3. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
+   feedback to the user, show an [indicator](https://htmx.org/docs/#indicators) while the request is being processed. An
+   svg spinner has been provided for you in `static/img/oval.svg`.

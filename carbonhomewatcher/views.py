@@ -1,22 +1,16 @@
+from time import sleep
+
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import CreateView, TemplateView, View
+from django.utils.html import escape
+from django.views import View
+from django.views.generic import CreateView, TemplateView
 from django_htmx.http import trigger_client_event
-from django_tables2 import tables
-from django_tables2.columns.templatecolumn import TemplateColumn
 
 from carbonhomewatcher.forms import ApplianceForm
-from carbonhomewatcher.models import Appliance, get_current_carbon_emissions
-
-
-class ApplianceTable(tables.Table):
-    toggle = TemplateColumn(template_name="appliance_toggle.html", orderable=False)
-
-    class Meta:
-        model = Appliance
-        template_name = "django_tables2/bootstrap.html"
-        exclude = ["id", "is_active"]
-        orderable = False
+from carbonhomewatcher.models import Appliance
+from carbonhomewatcher.services import carbon_emissions_service
+from carbonhomewatcher.tables import ApplianceTable
 
 
 class HomeView(TemplateView):
@@ -24,24 +18,24 @@ class HomeView(TemplateView):
 
 
 class ApplianceTableView(TemplateView):
-    template_name = "partials/appliance_table.html"
+    template_name = "home.html#appliance-table"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["table"] = ApplianceTable(Appliance.objects.order_by("name").all())
+        context["appliance_table"] = ApplianceTable(Appliance.objects.all())
         return context
 
 
 class ApplianceCreateView(CreateView):
     model = Appliance
     form_class = ApplianceForm
-    template_name = "partials/appliance_form.html"
+    template_name = "home.html#appliance-form"
 
     def form_valid(self, form):
         self.object = form.save()
         response = render(
             self.request,
-            "partials/appliance_created_alert.html",
+            "home.html#appliance-created-alert",
             {"appliance": self.object},
         )
         return trigger_client_event(response, "newAppliance")
@@ -49,9 +43,23 @@ class ApplianceCreateView(CreateView):
 
 class CarbonEmissionsView(View):
     def get(self, request):
-        return HttpResponse(str(get_current_carbon_emissions()) + " gCO2eq")
+        sleep(1)  # Simulate a delay in the response
+        carbon_emissions = carbon_emissions_service.get_current_carbon_emissions()
+        return HttpResponse(f"{escape(carbon_emissions)} gCO2eq/h")
 
 
-# TODO: Create a PUT view to toggle the is_active field of an appliance
-def appliance_toggle_view(request, pk):
-    print()
+class CarbonIntensityView(TemplateView):
+    template_name = "home.html#carbon-intensity-alert"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        carbon_intensity_dict = carbon_emissions_service.get_current_carbon_intensity_dict()
+        context["carbon_intensity"] = carbon_intensity_dict.get("carbon_intensity")
+        context["updated_at"] = carbon_intensity_dict.get("updated_at")
+        context["zone"] = carbon_intensity_dict.get("zone")
+        context["alert_level"] = carbon_intensity_dict.get("alert_level", "danger")
+        return context
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, **kwargs)
+        return trigger_client_event(response, "carbonIntensityUpdate")
