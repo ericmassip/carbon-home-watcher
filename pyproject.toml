@@ -1,0 +1,15 @@
+[project]
+name = "carbon-home-watcher"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "crispy-bootstrap5>=2025.6",
+    "django>=5.2.8",
+    "django-crispy-forms>=2.5",
+    "django-htmx>=1.26.0",
+    "django-tables2>=2.7.5",
+    "django-template-partials>=25.3",
+    "requests>=2.32.5",
+]

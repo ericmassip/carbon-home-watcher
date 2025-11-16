@@ -13,62 +13,26 @@ step-by-step exercises/instructions to familiarise yourself with some basic HTMX
 
 ## Getting started
 
-To get started with this project, you'll need to either:
-
-* Have Docker installed on your machine. If you don't have Docker installed, you can download it from
-  the [official Docker website](https://docs.docker.com/get-docker/).
-* Or, you can load the project locally. To do this, you'll need to have [python](https://www.python.org/)
-  and [PostgreSQL](https://www.postgresql.org/) installed locally.
-
-### Running the project with Docker
-
-To run the project, you need to have the [Docker](https://docs.docker.com/) daemon running.
-
-#### Set up database
-
-Before deploying the app, you'll need to set up the database by applying the
-initial [Django migrations](https://docs.djangoproject.com/en/5.1/topics/migrations/). To apply them, run the following
-command:
-
-    docker-compose run --rm web python manage.py migrate
-
-#### Deploy the app
-
-To deploy the app, run the following command:
-
-    docker-compose up
+To get started with this project, you'll need to have 
+[uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer) installed locally.
 
 ### Running the project locally
 
-1. Create a virtual environment with the project's dependencies:
+1. First, apply the database migrations with:
 
     ```bash
-    python -m venv venv/
-    source venv/bin/activate
-    pip install -r requirements.txt
+    uv run manage.py migrate
     ```
-
-2. Create a PostgreSQL database:
+   
+2. Start the development server with:
 
     ```bash
-    createdb carbonhomewatcher
+    uv run manage.py runserver
     ```
 
-3. Apply the migrations:
+## Workshop step-by-step instructions
 
-    ```bash
-    python manage.py migrate
-    ```
-
-4. Run the Django server:
-
-    ```bash
-    python manage.py runserver
-    ```
-
-## Workshop step by step instructions
-
-The workshop is divided into 5 parts, each one adding a new feature to the app or improving an existing one. Each part
+The workshop is divided into 4 parts, each one adding new features to the app or improving an existing one. Each part
 has a baseline branch that you can use to start the exercises, as well as a proposed solution.
 
 ### Part 1
