@@ -2,7 +2,7 @@
 
 Carbon Home Watcher is an app that allows users to monitor their home's carbon footprint. It's a simple carbon footprint
 tracker, where users can add their home appliances and see how they affect their home's carbon footprint. The app is
-built using Django, PostgreSQL and HTMX.
+built using Django and HTMX.
 
 This app has been designed as a way to showcase the use of HTMX in a Django project. HTMX is a library that allows you
 to build modern web applications with minimal JavaScript. It allows you to update parts of the page without reloading
