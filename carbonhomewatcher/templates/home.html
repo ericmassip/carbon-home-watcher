@@ -2,6 +2,7 @@
 {% load partials %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
+{% load partials %}
 
 {% block body %}
   <div class="container mt-5">
@@ -10,6 +11,11 @@
       <div class="col">
         <h1>Carbon Home Watcher 🏡</h1>
         <p>A tool to monitor the carbon emissions of your home appliances in real time!</p>
+        <h5>My carbon emissions:
+          <span hx-get="{% url "carbon-emissions" %}"
+                hx-trigger="newAppliance from:body, carbonIntensityUpdate from:body">
+          </span>
+        </h5>
       </div>
     </div>
 
@@ -26,7 +32,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mb-5">
       <div class="col-9"
            hx-get="{% url "appliance-table" %}"
            hx-trigger="load, newAppliance from:body">
@@ -46,6 +52,21 @@
         {% partialdef appliance-created-alert %}
           <div class="alert alert-success" role="alert">
             {{ appliance.name }} created successfully!
+          </div>
+        {% endpartialdef %}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-9">
+        <h5>Carbon intensity updates</h5>
+        {% partialdef carbon-intensity-alert %}
+          <div class="alert alert-{{ alert_level }}" role="alert">
+            {% if carbon_intensity %}
+              {{ carbon_intensity }} gCO2eq/kWh in zone {{ zone }} at {{ updated_at }}
+            {% else %}
+              Unable to fetch carbon intensity data
+            {% endif %}
           </div>
         {% endpartialdef %}
       </div>
