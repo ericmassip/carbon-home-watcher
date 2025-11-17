@@ -13,7 +13,7 @@ step-by-step exercises/instructions to familiarise yourself with some basic HTMX
 
 ## Getting started
 
-To get started with this project, you'll need to have 
+To get started with this project, you'll need to have
 [uv](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer) installed locally.
 
 ### Running the project locally
@@ -23,7 +23,7 @@ To get started with this project, you'll need to have
     ```bash
     uv run manage.py migrate
     ```
-   
+
 2. Start the development server with:
 
     ```bash
@@ -32,7 +32,7 @@ To get started with this project, you'll need to have
 
 ## Workshop step-by-step instructions
 
-The workshop is divided into 4 parts, each one adding new features to the app or improving an existing one. Each part
+The workshop is divided into 3 parts, each one adding new features to the app or improving an existing one. Each part
 has a baseline branch that you can use to start the exercises, as well as a proposed solution.
 
 ### Part 1
@@ -42,16 +42,12 @@ Baseline branch name = `part1`
 Solution branch name = `part1-solution`
 
 The home view currently shows a table with the existing appliances. There is an `Add new` button on the top right of the
-table which makes a request via HTMX to the server to get the form to add a new appliance. When the form is submitted, a
-POST request is made to the server to create the new appliance. The page is then reloaded to show the new appliance on
-the table.
+table which doesn't do anything yet. Just under it, there is a form to add a new appliance. When the form is submitted,
+a POST request is made to the server to create the new appliance. The whole page is then reloaded to show the new
+appliance on the table.
 
 #### Exercise
 
-Your task is to update the app so that when the form is submitted, the new appliance is added to the table without
-reloading the page. The form should disappear and some text should be shown to inform the user that the appliance has
-been created successfully.
-
-> [!TIP]
-> You'll need to replace two elements in the DOM but hx-target only lets you target one.
-> See [out of band swap](https://htmx.org/docs/#oob_swaps).
+1. Make the `Add new` button show the appliance form when clicked, without reloading the page.
+2. When the `Create` button is clicked, submit the form with HTMX and update the appliances table to show the new
+   appliance, without reloading the page.
