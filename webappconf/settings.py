@@ -9,9 +9,12 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+from dotenv import load_dotenv
 import os
 from pathlib import Path
 from sys import stdout
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -162,3 +165,6 @@ LOGGING = {
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+# Get your Electricity Maps API key from https://app.electricitymaps.com/developer-hub
+ELECTRICITY_MAPS_API_KEY = os.environ.get('ELECTRICITY_MAPS_API_KEY')
