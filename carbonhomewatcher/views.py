@@ -61,5 +61,5 @@ class CarbonIntensityView(TemplateView):
         return context
 
     def get(self, request, *args, **kwargs):
-        response = super().get(request, **kwargs)
+        response = super().get(request, *args, **kwargs)
         return trigger_client_event(response, "carbonIntensityUpdate")

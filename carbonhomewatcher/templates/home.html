@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+{% load partials %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
-{% load partials %}
 
 {% block body %}
   <div class="container mt-5">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="row mb-5">
-      <div class="col-9" id="appliance-table"
+      <div class="col-9"
            hx-get="{% url "appliance-table" %}"
            hx-trigger="load, newAppliance from:body">
         {% partialdef appliance-table %}

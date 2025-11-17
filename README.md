@@ -62,21 +62,21 @@ Baseline branch name = `part2`
 
 Solution branch name = `part2-solution`
 
+In order to improve the project's implementation of Locality of Behaviour,
+the [django-template-partials](https://github.com/carltongibson/django-template-partials) package has been installed for
+you. This package lets us add the partials within our `partials/` folder directly into our `home.html` template.
+
 #### Exercise
 
-This task has two goals:
-
-1. Improve our project's implementation of Locality of Behaviour by using
-   the [django-template-partials](https://github.com/carltongibson/django-template-partials) package. The package has
-   already been installed for you so you just need to add the partials within our `partials/` folder directly into our
-   `home.html` template.
+1. Your task is to break down the remaining partial `appliance_table.html` into smaller partials and include them in
+   the main `home.html` template using the `django-template-partials` package.
 2. Replace the current out of band swap with a slightly more sophisticated approach,
    a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific
    event occurs i.e. event driven programming.
 
-> [!TIP]
-> Create a new view other than the main `HomeView` that returns the appliance table. Make a request to this new view
-> when the page is first accessed. See [lazy loading](https://htmx.org/examples/lazy-load/).
+> [!NOTE]
+> The new view that returns the appliance table makes a request to it as soon as the page is first accessed.
+> See [lazy loading](https://htmx.org/examples/lazy-load/).
 
 ### Part 3 - Add polling calls to update the carbon emissions
 
@@ -85,8 +85,9 @@ Baseline branch name = `part3`
 Solution branch name = `part3-solution`
 
 The app has two new views that return the total carbon emissions (gCO2eq/h) given the appliances in the db and the
-current carbon intensity (gCO2eq/kWh), but these views are not being used yet. Your task is to connect the app with
-them to display the current carbon emissions in real time as well as to monitor the carbon intensity evolution.
+current carbon intensity (gCO2eq/kWh). The total carbon emissions is displayed on the header of the page, see the 
+`<span>` tag at the top of `home.html`. It updates through a client event both when the carbon intensity changes and 
+when a new appliance is created.
 
 The carbon intensity can change throughout the day, so it would be good to update it every 5 minutes. The `services.py`
 file has a variable called `carbon_emissions_service` which loads a service to get the current carbon intensity from
@@ -104,9 +105,6 @@ file into a new file called `.env` and add the variable there.
    minutes, see the `carbon-intensity-alert` partial in `home.html`. For development purposes, you can set the polling
    interval to a lower value like 5-10 seconds.
 
-2. The total carbon emissions should be displayed in the header of the page, see the `<span>` tag at the top
-   of `home.html`. It should be updated both when the carbon intensity changes and when a new appliance is added.
-
-3. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
+2. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
    feedback to the user, show an [indicator](https://htmx.org/docs/#indicators) while the request is being processed. An
    svg spinner has been provided for you in `static/img/oval.svg`.
