@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load partials %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
 
@@ -26,10 +27,18 @@
     </div>
 
     <div class="row">
-      <div class="col-9" id="appliance-table">
-        {% render_table appliance_table %}
+      <div class="col-9"
+           hx-get="{% url "appliance-table" %}"
+           hx-trigger="load">
       </div>
-      <div class="col-3" id="appliance-form"></div>
+      <div class="col-3" id="appliance-form">
+        {% partialdef appliance-form %}
+          <form hx-post="{% url "appliance-create" %}">
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-outline-primary float-end">Create</button>
+          </form>
+        {% endpartialdef %}
+      </div>
     </div>
 
   </div>

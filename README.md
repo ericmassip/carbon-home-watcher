@@ -62,18 +62,18 @@ Baseline branch name = `part2`
 
 Solution branch name = `part2-solution`
 
+In order to improve the project's implementation of Locality of Behaviour,
+the [django-template-partials](https://github.com/carltongibson/django-template-partials) package has been installed for
+you. This package lets us add the partials within our `partials/` folder directly into our `home.html` template.
+
 #### Exercise
 
-This task has two goals:
-
-1. Improve our project's implementation of Locality of Behaviour by using
-   the [django-template-partials](https://github.com/carltongibson/django-template-partials) package. The package has
-   already been installed for you so you just need to add the partials within our `partials/` folder directly into our
-   `home.html` template.
+1. Your task is to break down the remaining partial `appliance_table.html` into smaller partials and include them in
+   the main `home.html` template using the `django-template-partials` package.
 2. Replace the current out of band swap with a slightly more sophisticated approach,
    a [trigger event](https://htmx.org/headers/hx-trigger/). This will allow you to trigger the swap when a specific
    event occurs i.e. event driven programming.
 
-> [!TIP]
-> Create a new view other than the main `HomeView` that returns the appliance table. Make a request to this new view
-> when the page is first accessed. See [lazy loading](https://htmx.org/examples/lazy-load/).
+> [!NOTE]
+> The new view that returns the appliance table makes a request to it as soon as the page is first accessed.
+> See [lazy loading](https://htmx.org/examples/lazy-load/).
