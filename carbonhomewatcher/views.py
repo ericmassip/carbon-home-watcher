@@ -1,10 +1,13 @@
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
-from django_htmx.http import HttpResponseClientRedirect
 
 from carbonhomewatcher.forms import ApplianceForm
 from carbonhomewatcher.models import Appliance
 from carbonhomewatcher.tables import ApplianceTable
+
+
+def get_appliance_table():
+    return ApplianceTable(Appliance.objects.all())
 
 
 class HomeView(TemplateView):
@@ -12,15 +15,12 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["appliance_table"] = ApplianceTable(Appliance.objects.all())
+        context["appliance_table"] = get_appliance_table()
+        context["form"] = ApplianceForm()
         return context
 
 
 class ApplianceCreateView(CreateView):
     model = Appliance
     form_class = ApplianceForm
-    template_name = "partials/appliance_form.html"
-
-    def form_valid(self, form):
-        self.object = form.save()
-        return HttpResponseClientRedirect(redirect_to=reverse("home"))
+    success_url = reverse_lazy("home")
