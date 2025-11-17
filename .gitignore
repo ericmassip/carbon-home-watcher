@@ -1,11 +1,6 @@
 # Mac metadata files
 .DS_Store
 
-# Ignore automatically created project directories which we don't want to be uploaded
-# media directory for photos, etc uploaded to the website
-media
-# static contains the files added as part of the project (e.g. JS and CSS) and gets populated by running collectstatic
-static
 # Coverage report directory
 htmlcov
 
