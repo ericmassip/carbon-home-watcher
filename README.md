@@ -85,3 +85,16 @@ file into a new file called `.env` and add the variable there.
 
 ### Part 3 - Edit and delete appliances
 
+Baseline branch name = `part3`
+
+The app is now complete, with the ability to add new appliances and see how they affect the home's carbon footprint.
+However, there is no way to edit or delete existing appliances, because appliances are not always on.
+
+#### Exercise
+
+1. Add another column to the appliance table that contains a toggle button on each row. When clicked, a PUT request
+   should be made to toggle the `is_active` appliance property. The request should update the appliance in the db and
+   trigger an event to update the total carbon emissions.
+2. Add another column to the appliance table that contains a delete button/icon on each row. When clicked, a DELETE
+   request should be made to delete the appliance from the db. The row should be removed from the table without
+   reloading the page, and an event should be triggered to update the total carbon emissions.
