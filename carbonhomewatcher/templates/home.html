@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
-{% load partials %}
 {% load django_tables2 %}
 {% load crispy_forms_tags %}
+{% load partials %}
 
 {% block body %}
   <div class="container mt-5">
@@ -14,7 +14,7 @@
         <h5>My carbon emissions:
           <span hx-get="{% url "carbon-emissions" %}"
                 hx-indicator="#spinner"
-                hx-trigger="newAppliance from:body, carbonIntensityUpdate from:body">
+                hx-trigger="applianceAdded from:body, carbonIntensityUpdated from:body">
           </span>
           <img id="spinner" class="htmx-indicator" src="{% static 'img/oval.svg' %}" alt="Loading..."/>
         </h5>
@@ -34,36 +34,29 @@
       </div>
     </div>
 
-    <div class="row mb-5">
-      <div class="col-9"
-           hx-get="{% url "appliance-table" %}"
-           hx-trigger="load, newAppliance from:body">
-        {% partialdef appliance-table %}
+    <div class="row">
+      <div class="col-9" id="appliance-table">
+        {% partialdef appliance-table inline %}
           {% render_table appliance_table %}
         {% endpartialdef %}
       </div>
 
       <div class="col-3" id="appliance-form">
         {% partialdef appliance-form %}
-          <form hx-post="{% url "appliance-create" %}">
+          <form hx-post="{% url "appliance-create" %}" hx-target="#appliance-table">
             {{ form|crispy }}
             <button type="submit" class="btn btn-outline-primary float-end">Create</button>
           </form>
-        {% endpartialdef %}
-
-        {% partialdef appliance-created-alert %}
-          <div class="alert alert-success" role="alert">
-            {{ appliance.name }} created successfully!
-          </div>
         {% endpartialdef %}
       </div>
     </div>
 
     <div class="row">
       <div class="col-9"
-          hx-get="{% url 'carbon-intensity' %}"
-          hx-trigger="load, every 5s"
-          hx-swap="beforeend">
+        hx-get="{% url "carbon-intensity" %}"
+        hx-trigger="load, every 5s"
+        hx-target="find h5"
+        hx-swap="afterend">
         <h5>Carbon intensity updates</h5>
         {% partialdef carbon-intensity-alert %}
           <div class="alert alert-{{ alert_level }}" role="alert">
