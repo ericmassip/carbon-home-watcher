@@ -75,10 +75,10 @@ file into a new file called `.env` and add the variable there.
 
 #### Exercise
 
-1. Use [polling](https://htmx.org/docs/#polling) to load an alert with the carbon intensity details every 5
-   minutes, see the `carbon-intensity-alert` partial in `home.html`. The new alerts should be appended to the top of the
-   list, newer first. For development purposes, you can set the polling interval to a lower value like 5-10 seconds.
-
-2. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
+1. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
    feedback to the user, show an [indicator](https://htmx.org/docs/#indicators) while the request is being processed. An
    svg spinner has been provided for you in `static/img/oval.svg`.
+
+2. Use [polling](https://htmx.org/docs/#polling) to load an alert with the carbon intensity details every 5
+   minutes, see the `carbon-intensity-alert` partial in `home.html`. The new alerts should be appended to the top of the
+   list, newer first. For development purposes, you can set the polling interval to a lower value like 5-10 seconds.
