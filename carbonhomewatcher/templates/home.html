@@ -61,7 +61,7 @@
         {% partialdef carbon-intensity-alert %}
           <div class="alert alert-{{ alert_level }}" role="alert">
             {% if carbon_intensity %}
-              {{ carbon_intensity }} gCO2eq/kWh in zone {{ zone }} at {{ updated_at }}
+              {{ carbon_intensity }} gCO2eq/kWh in zone {{ zone }} at {{ updated_at }} ({{ now_timestamp }})
             {% else %}
               Unable to fetch carbon intensity data
             {% endif %}
