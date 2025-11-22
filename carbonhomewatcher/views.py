@@ -2,6 +2,7 @@ from time import sleep
 
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 from django.utils.html import escape
 from django.views import View
 from django.views.generic import CreateView, TemplateView
@@ -40,7 +41,7 @@ class ApplianceCreateView(CreateView):
 
 class CarbonEmissionsView(View):
     def get(self, request):
-        sleep(1)  # Simulate a delay in the response
+        sleep(2)  # Simulate a delay in the response
         carbon_emissions = carbon_emissions_service.get_current_carbon_emissions()
         return HttpResponse(f"{escape(carbon_emissions)} gCO2eq/h")
 
@@ -55,6 +56,7 @@ class CarbonIntensityView(TemplateView):
         context["updated_at"] = carbon_intensity_dict.get("updated_at")
         context["zone"] = carbon_intensity_dict.get("zone")
         context["alert_level"] = carbon_intensity_dict.get("alert_level", "danger")
+        context["now_timestamp"] = timezone.now().timestamp()
         return context
 
     def get(self, request, *args, **kwargs):
