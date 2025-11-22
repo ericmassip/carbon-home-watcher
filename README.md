@@ -75,7 +75,7 @@ file into a new file called `.env` and add the variable there.
 
 #### Exercise
 
-1. The carbon emissions view has a forced delay of 1 second to simulate a slow response from the server. To give some
+1. The carbon emissions view has a forced delay of 2 seconds to simulate a slow response from the server. To give some
    feedback to the user, show an [indicator](https://htmx.org/docs/#indicators) while the request is being processed. An
    svg spinner has been provided for you in `static/img/oval.svg`.
 
