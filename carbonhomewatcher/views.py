@@ -56,7 +56,7 @@ class CarbonIntensityView(TemplateView):
         context["updated_at"] = carbon_intensity_dict.get("updated_at")
         context["zone"] = carbon_intensity_dict.get("zone")
         context["alert_level"] = carbon_intensity_dict.get("alert_level", "danger")
-        context["now_timestamp"] = timezone.now().timestamp()
+        context["now_timestamp"] = timezone.now().strftime("%H:%M:%S")
         return context
 
     def get(self, request, *args, **kwargs):
